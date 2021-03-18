@@ -1,80 +1,46 @@
-import React from 'react';
+import React, {useMemo, useCallback} from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment } from './../store/Fruits/Actions';
 
-// const nanoid = () => Math.random();
-
-// const Fruit = (props) => {
-// 	return (
-// 		<div onClick={props.handleIncFruit}>{props.fruitName} - {props.fruitCount}</div>
-// 	);
-
-// }
-
-// const initialState = {
-// 	fruits: [
-// 		id1: { name: 'Lemon', count: 3 },
-// 		id2: { name: 'Apple', count: 2 },
-// 		id3: { name: 'Mango', count: 2 },
-// 	],
-// 	fruitsIds: [id1, id2, id3],
-// 	total: 7,
-// }
-
-
-
-
-// const reducer = (action) => {
-// 	switch (action.type) {
-// 		case: 'INC': {
-// 			const { id } = action.payload;
-// 			return {
-// 				...state,
-// 				fruits: {
-// 					...state.fruits,
-// 					[id]: {
-// 						...state.fruits[id],
-// 						count: ...state.fruits[id].count + 1,
-// 					}
-// 				}
-// 			}
-
-// 		}
-// 		default: {
-// 			return state;
-// 		}
-// 	}
-
-// }
-
-
-const Redux = (props) => {
-	// constructor(props) {
-	// 	super(props);
-	// 	this.state = {
-	// 		fruits: [
-	// 			{ name: 'Lemon', count: 3 },
-	// 			{ name: 'Apple', count: 2 },
-	// 			{ name: 'Mango', count: 2 },
-	// 		],
-	// 		total: 7,
-	// 	}
-	// 	this.handleInc = this.handleInc.bind(this);
-
-	// }
-
-	// handleInc() {
-	// 	this.setState(state => { Lemon: this.state.Lemon++ });
-	// 	this.setState(state => { Total: this.state.Total++ });
-	// }
-
+const Fruit = (props) => {
 	return (
-		<div>
-			{/* {this.state.fruits.map(item =>
-				<Fruit handleIncFruit="handleInc" fruitName={item.name} fruitCount={item.count} />
-			)} */}
-			{/* <div>Total - {this.state.total}</div> */}
-			Would be here
+		<div
+			onClick={props.handleIncFruit}
+			id={props.id}
+		>
+			{props.fruitName} - {props.fruitCount}
 		</div>
 	);
+}
+
+const Redux = () => {
+	const fruits = useSelector((state) => state.fruits);
+	let total = useSelector((state) => state.fruits.total);
+	const dispatch = useDispatch();
+
+	const incrementCount = useCallback((e) => {
+		dispatch(increment(e.target.id));
+	}, [dispatch]);
+
+	const markup = useMemo(() => (
+		<div>
+			{!!fruits.fruitsIds.length && <div>
+				{fruits.fruitsIds.map(item =>
+					<Fruit
+						key={item}
+						handleIncFruit={incrementCount}
+						fruitName={fruits.fruits[Number(item)].name}
+						fruitCount={fruits.fruits[Number(item)].count}
+						id={item}
+					/>
+				)}
+			</div>
+			}
+			<div>Total - {total}</div>
+		</div>
+	), [fruits, incrementCount, total]);
+
+	return markup;
 }
 
 export default Redux;

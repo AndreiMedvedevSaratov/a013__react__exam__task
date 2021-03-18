@@ -1,9 +1,9 @@
 
 import React, { Component } from 'react';
 
-import Classes from './classes/classes';
-import Functions from './functions/functions';
-import Redux from './redux/redux';
+import Classes from './classes/Classes';
+import Functions from './functions/Functions';
+import Redux from './redux/Redux';
 
 import './App.css';
 
