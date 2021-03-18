@@ -2,12 +2,12 @@ import React from 'react';
 
 // const nanoid = () => Math.random();
 
-const Fruit = (props) => {
-	return (
-		<div onClick={props.handleIncFruit}>{props.fruitName} - {props.fruitCount}</div>
-	);
+// const Fruit = (props) => {
+// 	return (
+// 		<div onClick={props.handleIncFruit}>{props.fruitName} - {props.fruitCount}</div>
+// 	);
 
-}
+// }
 
 // const initialState = {
 // 	fruits: [

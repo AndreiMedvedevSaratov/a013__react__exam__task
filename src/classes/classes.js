@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 
 const Fruit = (props) => {
 	return (
-		<div onClick={props.handleIncFruit}>{props.fruitName} - {props.fruitCount}</div>
+		<div
+			onClick={props.handleIncFruit}
+			id={props.id}
+		>
+			{props.fruitName} - {props.fruitCount}
+		</div>
 	);
-
 }
 
 class Classes extends Component {
@@ -12,27 +16,39 @@ class Classes extends Component {
 		super(props);
 		this.state = {
 			fruits: [
-				{ name: 'Lemon', count: 3 },
-				{ name: 'Apple', count: 2 },
-				{ name: 'Mango', count: 2 },
+				{ name: 'Lemon', count: 3, id: '0' },
+				{ name: 'Apple', count: 2, id: '1' },
+				{ name: 'Mango', count: 2, id: '2' },
 			],
 			total: 7,
 		}
-		this.handleInc = this.handleInc.bind(this);
+		this.increment = this.increment.bind(this);
 	}
 
-	handleInc() {
-		this.setState(state => { Lemon: this.state.Lemon++ });
-		this.setState(state => { Total: this.state.Total++ });
+	increment = (e) => {
+		console.log(e.target.id);
+		let tempArray = this.state.fruits;
+		for (let i = 0; i < this.state.fruits.length; i++) {
+			if (this.state.fruits[i].id === e.target.id) {
+				tempArray[i].count++;
+			}
+		}
+		this.setState({ fruits: tempArray });
+		this.setState({ total: this.state.total + 1 });
 	}
 
 	render() {
 		return (
 			<div>
-				{this.state.fruits.map(item =>
-					<Fruit handleIncFruit="handleInc" fruitName={item.name} fruitCount={item.count} />
+				{this.state.fruits.map((item, index) =>
+					<Fruit
+						key={item.id}
+						handleIncFruit={this.increment}
+						fruitName={item.name}
+						fruitCount={item.count}
+						id={item.id}
+					/>
 				)}
-
 				<div>Total - {this.state.total}</div>
 			</div>
 		);
