@@ -26,7 +26,6 @@ class Classes extends Component {
 	}
 
 	increment = (e) => {
-		console.log(e.target.id);
 		let tempArray = this.state.fruits;
 		for (let i = 0; i < this.state.fruits.length; i++) {
 			if (this.state.fruits[i].id === e.target.id) {
@@ -40,7 +39,7 @@ class Classes extends Component {
 	render() {
 		return (
 			<div>
-				{this.state.fruits.map((item, index) =>
+				{this.state.fruits.map(item =>
 					<Fruit
 						key={item.id}
 						handleIncFruit={this.increment}
