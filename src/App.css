@@ -1,0 +1,13 @@
+.App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 1000px;
+}
+
+.section {
+  width: 1000px;
+  margin: 0 auto;
+  margin-bottom: 50px;
+  text-align: center;
+}
