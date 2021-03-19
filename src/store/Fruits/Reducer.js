@@ -12,18 +12,22 @@ const initialState = {
 
 const reducerMapping = {
 	[fruitsActionTypes.inc]: (state, fruitId) => {
-		const list = { ...state.fruits };
 		const id = fruitId.id;
-
-		list[id].count = list[id].count + 1;
-		let newTotal = state.total + 1;
 
 		return {
 			...state,
-			fruits: list,
-			total: newTotal,
-		};
+			fruits: {
+				...state.fruits,
+				[id]: {
+					...state.fruits[id],
+					count: state.fruits[id].count + 1,
+				}
+			},
+			total: state.total + 1,
+		}
 	},
 }
 
 export const fruits = (state = initialState, action) => reducerMapping[action.type] ? reducerMapping[action.type](state, action.payload) : state;
+
+// change in reducer - to make it like waterfall

@@ -1,46 +1,51 @@
-import React, {useMemo, useCallback} from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { increment } from './../store/Fruits/Actions';
 
-const Fruit = (props) => {
-	return (
+const Fruit = (item) => {
+	return useMemo(() => (
 		<div
-			onClick={props.handleIncFruit}
-			id={props.id}
+			onClick={item.handleIncFruit}
+			id={item.id}
 		>
-			{props.fruitName} - {props.fruitCount}
+			{item.fruitName} - {item.fruitCount}
 		</div>
-	);
+	), [item.handleIncFruit, item.id, item.fruitName, item.fruitCount]);
 }
 
 const Redux = () => {
-	const fruits = useSelector((state) => state.fruits);
+	const localState = useSelector((state) => state.fruits);
 	let total = useSelector((state) => state.fruits.total);
 	const dispatch = useDispatch();
 
-	const incrementCount = useCallback((e) => {
-		dispatch(increment(e.target.id));
+	const incrementCount = useCallback((id) => {
+		dispatch(increment(id));
 	}, [dispatch]);
 
 	const markup = useMemo(() => (
-		<div>
-			{!!fruits.fruitsIds.length && <div>
-				{fruits.fruitsIds.map(item =>
-					<Fruit
-						key={item}
-						handleIncFruit={incrementCount}
-						fruitName={fruits.fruits[Number(item)].name}
-						fruitCount={fruits.fruits[Number(item)].count}
-						id={item}
-					/>
-				)}
-			</div>
-			}
+		<>
+			{localState.fruitsIds.map(item =>
+				<Fruit
+					key={item}
+					handleIncFruit={() => incrementCount(localState.fruitsIds[item])}
+					fruitName={localState.fruits[item].name}
+					fruitCount={localState.fruits[item].count}
+					id={item}
+				/>
+			)}
 			<div>Total - {total}</div>
-		</div>
-	), [fruits, incrementCount, total]);
+		</>
+	), [localState, incrementCount, total]);
 
 	return markup;
 }
 
 export default Redux;
+
+// handleIncFruit - sending item.id as argument
+// useMemo in Fruit component
+// use fragment
+// decided not to use - {!!fruits.length && <div>
+// do not use Number(id)
+// e.target.id - do not use it
+// change 'fruits' to 'localState'

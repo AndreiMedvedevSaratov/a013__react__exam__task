@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, useMemo } from 'react';
 
-const Fruit = (props) => {
-	return (
+const Fruit = (item) => {
+	return useMemo(() => (
 		<div
-			onClick={props.handleIncFruit}
-			id={props.id}
+			onClick={item.handleIncFruit}
+			id={item.id}
 		>
-			{props.fruitName} - {props.fruitCount}
+			{item.fruitName} - {item.fruitCount}
 		</div>
-	);
+	), [item.handleIncFruit, item.id, item.fruitName, item.fruitCount]);
 }
 
 class Classes extends Component {
@@ -25,33 +25,36 @@ class Classes extends Component {
 		this.increment = this.increment.bind(this);
 	}
 
-	increment = (e) => {
-		let tempArray = this.state.fruits;
-		for (let i = 0; i < this.state.fruits.length; i++) {
-			if (this.state.fruits[i].id === e.target.id) {
-				tempArray[i].count++;
-			}
-		}
-		this.setState({ fruits: tempArray });
+	increment = (itemId) => {
 		this.setState({ total: this.state.total + 1 });
+
+		let tempArray = [...this.state.fruits];
+		tempArray.find(item => item.id === itemId).count++;
+		this.setState({ fruits: tempArray });
 	}
 
 	render() {
 		return (
-			<div>
+			<>
 				{this.state.fruits.map(item =>
 					<Fruit
 						key={item.id}
-						handleIncFruit={this.increment}
+						handleIncFruit={() => this.increment(item.id)}
 						fruitName={item.name}
 						fruitCount={item.count}
 						id={item.id}
 					/>
 				)}
 				<div>Total - {this.state.total}</div>
-			</div>
+			</>
 		);
 	}
 }
 
 export default Classes;
+
+// handleIncFruit - sending item.id as argument
+// use method find - to search necessary item in array
+// useMemo in Fruit component
+// e.target.id - do not use it
+// use fragment
