@@ -1,3 +1,12 @@
+# a013__react__exam__task
+
+It was task to create lists and total on React with different variants of components:
+1) function
+2) class
+3) redux
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
