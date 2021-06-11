@@ -1,4 +1,4 @@
-# a013__react__exam__task
+# a013__react__exam__task__1
 
 It was task to create lists and total on React with different variants of components:
 1) function
